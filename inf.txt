@@ -1,0 +1,17 @@
+go mod init github.com/devmarciosieto/curso-go
+
+go get golang.org/x/exp/constraints
+go get github.com/google/uuid
+
+go mod tidy
+go build
+go build main.go
+
+GOOS=windows go build main.go
+GOOS=linux go build main.go
+GOOS=windows go build main.go
+go tool dist list
+go env GOOS GOARCH
+
+// mudar no nome da saída do build
+go build -o nome
