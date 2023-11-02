@@ -2,17 +2,20 @@ package campaign
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewCampaign(t *testing.T) {
+var (
+	name     = "Nome Campaign"
+	content  = "Conteúdo Content"
+	contacts = []string{"email01@gmail.com", "email02@gmail.com"}
+)
+
+func Test_NewCampaign_CreateCampaign(t *testing.T) {
 
 	assert := assert.New(t)
-
-	name := "Nome Campaign"
-	content := "Conteúdo Content"
-	contacts := []string{"email01@gmail.com", "email02@gmail.com"}
 
 	campaign := NewCampaign(name, content, contacts)
 
@@ -30,11 +33,13 @@ func TestNewCampaign(t *testing.T) {
 	// 	t.Errorf("Expected contact %s, but got %s", contacts[1], campaign.Contacts[1])
 	// }
 
-	assert.Equal("1", campaign.ID)
+	assert.NotNil(campaign.ID)
 	assert.Equal(name, campaign.Name)
 	assert.Equal(content, campaign.Content)
 	assert.Equal(len(contacts), len(campaign.Contacts))
 	assert.Equal(contacts[0], campaign.Contacts[0].Email)
 	assert.Equal(contacts[1], campaign.Contacts[1].Email)
 
+	now := time.Now().Add(-time.Minute)
+	assert.Greater(campaign.CreatedOn, now)
 }

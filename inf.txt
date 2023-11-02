@@ -17,3 +17,5 @@ go env GOOS GOARCH
 go build -o nome
 
 go get github.com/stretchr/testify
+go get github.com/rs/xid 
+
