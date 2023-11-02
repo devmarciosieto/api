@@ -15,3 +15,5 @@ go env GOOS GOARCH
 
 // mudar no nome da saída do build
 go build -o nome
+
+go get github.com/stretchr/testify
