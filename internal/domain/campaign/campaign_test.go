@@ -17,7 +17,7 @@ func Test_NewCampaign_CreateCampaign(t *testing.T) {
 
 	assert := assert.New(t)
 
-	campaign := NewCampaign(name, content, contacts)
+	campaign, _ := NewCampaign(name, content, contacts)
 
 	// if campaign.ID != "1" {
 	// 	t.Errorf("Expected id 1, but got %s", campaign.ID)
@@ -42,4 +42,40 @@ func Test_NewCampaign_CreateCampaign(t *testing.T) {
 
 	now := time.Now().Add(-time.Minute)
 	assert.Greater(campaign.CreatedOn, now)
+}
+
+func Test_NewCampaign_InvalidName(t *testing.T) {
+
+	assert := assert.New(t)
+
+	_, err := NewCampaign("", content, contacts)
+
+	assert.Equal("Name is required", err.Error())
+}
+
+func Test_NewCampaign_InvalidContacts(t *testing.T) {
+
+	assert := assert.New(t)
+
+	_, err := NewCampaign(name, content, []string{})
+
+	assert.Equal("Contacts is required", err.Error())
+}
+
+func Test_NewCampaign_InvalidContent(t *testing.T) {
+
+	assert := assert.New(t)
+
+	_, err := NewCampaign(name, "", contacts)
+
+	assert.Equal("Content is required", err.Error())
+}
+
+func Test_NewCampaign_InvalidEmail(t *testing.T) {
+
+	assert := assert.New(t)
+
+	_, err := NewCampaign(name, content, []string{})
+
+	assert.Equal("Contacts is required", err.Error())
 }
