@@ -34,20 +34,16 @@ func Test_Create_Save_Campaign(t *testing.T) {
 
 	repositoryMock.On("Save", mock.MatchedBy(func(campaign *Campaign) bool {
 
-		if campaign.ID == "" {
+		if campaign.ID == "" ||
+			campaign.Name == "" ||
+			campaign.Content == "" ||
+			len(campaign.Contacts) == 0 ||
+			campaign.Contacts[0].Email != newCampaign.Emails[0] ||
+			campaign.Contacts[1].Email != newCampaign.Emails[1] {
 			return false
 
-		} else if campaign.Name != newCampaign.Name {
-			return false
-		} else if campaign.Content != newCampaign.Content {
-			return false
-		} else if len(campaign.Contacts) != len(newCampaign.Emails) {
-			return false
-		} else if campaign.Contacts[0].Email != newCampaign.Emails[0] {
-			return false
-		} else if campaign.Contacts[1].Email != newCampaign.Emails[1] {
-			return false
 		}
+
 		return true
 	})).Return(nil)
 
@@ -74,11 +70,11 @@ func Test_Create_ValidateRepositorySave(t *testing.T) {
 
 	assert := assert.New(t)
 
-	repositoryMock.On("Save", mock.Anything).Return(errors.New("Error saving campaign"))
+	repositoryMock.On("Save", mock.Anything).Return(errors.New("Name is required"))
 
 	_, err := service.Create(newCampaign)
 
 	assert.NotNil(err)
-	assert.Equal("Error saving campaign", err.Error())
+	assert.Equal("Name is required", err.Error())
 
 }
