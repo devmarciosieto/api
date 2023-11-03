@@ -3,3 +3,6 @@ go get github.com/rs/xid
 go get github.com/go-playground/validator/v10
 go get github.com/go-chi/chi/v5
 go get github.com/go-chi/render
+
+go install github.com/cosmtrek/air@latest
+ari init
