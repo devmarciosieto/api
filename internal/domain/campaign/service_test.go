@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/devmarciosieto/api/internal/contract"
+	internalerros "github.com/devmarciosieto/api/internal/internal-erros"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -22,7 +23,7 @@ var (
 	newCampaign = contract.NewCampaignDto{
 		Name:    "Test Name",
 		Content: "Test body",
-		Emails:  []string{"email1@gmail.com", "email2gmail.com"},
+		Emails:  []string{"email1@gmail.com", "email2@gmail.com"},
 	}
 	repositoryMock = new(MockRepository)
 	service        = Service{Repository: repositoryMock}
@@ -47,6 +48,8 @@ func Test_Create_Save_Campaign(t *testing.T) {
 		return true
 	})).Return(nil)
 
+	service.Repository = repositoryMock
+
 	id, err := service.Create(newCampaign)
 
 	assert.NotNil(id)
@@ -63,18 +66,28 @@ func Test_Create_ValidateDomainError(t *testing.T) {
 	_, err := service.Create(newCampaign)
 
 	assert.NotNil(err)
-	assert.Equal("Name is required", err.Error())
+	assert.Equal("name is required with min 5", err.Error())
+	assert.False(errors.Is(internalerros.ErrInternal, err))
 }
 
 func Test_Create_ValidateRepositorySave(t *testing.T) {
 
+	newCampaign = contract.NewCampaignDto{
+		Name:    "Test Name",
+		Content: "Test body",
+		Emails:  []string{"email1@gmail.com", "email2@gmail.com"},
+	}
+
+	repositoryMock = new(MockRepository)
+	service = Service{Repository: repositoryMock}
+
 	assert := assert.New(t)
 
-	repositoryMock.On("Save", mock.Anything).Return(errors.New("Name is required"))
+	repositoryMock.On("Save", mock.Anything).Return(errors.New("internal server error"))
 
 	_, err := service.Create(newCampaign)
 
 	assert.NotNil(err)
-	assert.Equal("Name is required", err.Error())
+	assert.Equal("internal server error", err.Error())
 
 }
