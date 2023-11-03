@@ -26,8 +26,8 @@ func main() {
 		CampaignService: campaignService,
 	}
 
-	r.Post("/api/v1/campaigns", handler.CampaignPost)
-	r.Get("/api/v1/campaigns", handler.CampaignGet)
+	r.Post("/api/v1/campaigns", endpoints.HandlerError(handler.CampaignPost))
+	r.Get("/api/v1/campaigns", endpoints.HandlerError(handler.CampaignGet))
 
 	http.ListenAndServe(":8080", r)
 }
