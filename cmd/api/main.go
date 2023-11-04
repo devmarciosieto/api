@@ -1,9 +1,10 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/devmarciosieto/api/internal/endpoints"
 	"github.com/devmarciosieto/api/internal/infrastructure/database"
-	"net/http"
 
 	"github.com/devmarciosieto/api/internal/domain/campaign"
 	"github.com/go-chi/chi/v5"
@@ -18,12 +19,12 @@ func main() {
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
 
-	campaignService := campaign.Service{
+	campaignService := campaign.ServiceImp{
 		Repository: &database.CampaignRepository{},
 	}
 
 	handler := endpoints.Handler{
-		CampaignService: campaignService,
+		CampaignService: &campaignService,
 	}
 
 	r.Post("/api/v1/campaigns", endpoints.HandlerError(handler.CampaignPost))

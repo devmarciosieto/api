@@ -24,6 +24,11 @@ func (m *MockRepository) Get() ([]Campaign, error) {
 	return nil, nil
 }
 
+func (m *MockRepository) GetBy(id string) (*Campaign, error) {
+	//	args := m.Called(campaign)
+	return nil, nil
+}
+
 var (
 	newCampaign = contract.NewCampaignDto{
 		Name:    "Test Name",
@@ -31,7 +36,7 @@ var (
 		Emails:  []string{"email1@gmail.com", "email2@gmail.com"},
 	}
 	repositoryMock = new(MockRepository)
-	service        = Service{Repository: repositoryMock}
+	service        = ServiceImp{Repository: repositoryMock}
 )
 
 func Test_Create_Save_Campaign(t *testing.T) {
@@ -84,7 +89,7 @@ func Test_Create_ValidateRepositorySave(t *testing.T) {
 	}
 
 	repositoryMock = new(MockRepository)
-	service = Service{Repository: repositoryMock}
+	service = ServiceImp{Repository: repositoryMock}
 
 	assert := assert.New(t)
 

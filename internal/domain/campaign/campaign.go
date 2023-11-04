@@ -8,6 +8,12 @@ import (
 	"github.com/rs/xid"
 )
 
+const (
+	Pending = "Pending"
+	Started = "Started"
+	Done    = "Done"
+)
+
 type Contact struct {
 	Email string `validate:"email"`
 }
@@ -18,6 +24,7 @@ type Campaign struct {
 	CreatedOn time.Time `validate:"required"`
 	Content   string    `validate:"required"`
 	Contacts  []Contact `validate:"min=1,dive"`
+	Status    string
 }
 
 func NewCampaign(name string, content string, emails []string) (*Campaign, error) {
@@ -33,6 +40,7 @@ func NewCampaign(name string, content string, emails []string) (*Campaign, error
 		CreatedOn: time.Now(),
 		Content:   content,
 		Contacts:  contacts,
+		Status:    Pending,
 	}
 
 	err := internalerros.ValidateStruct(campaign)
