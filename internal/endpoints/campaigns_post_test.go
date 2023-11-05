@@ -8,24 +8,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	internalmock "github.com/devmarciosieto/api/internal/test/mock"
+
 	"github.com/devmarciosieto/api/internal/contract"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
-
-type serverMock struct {
-	mock.Mock
-}
-
-func (m *serverMock) Create(newCampaign contract.NewCampaignDto) (string, error) {
-	args := m.Called(newCampaign)
-	return args.String(0), args.Error(1)
-}
-
-func (m *serverMock) GetBy(id string) (*contract.CampaignResponse, error) {
-	//	args := m.Called(id)
-	return nil, nil
-}
 
 func Test_CampaignsPost_should_save_new_campaign(t *testing.T) {
 	assert := assert.New(t)
@@ -36,7 +24,7 @@ func Test_CampaignsPost_should_save_new_campaign(t *testing.T) {
 		Emails:  []string{"email@gmail.com"},
 	}
 
-	service := new(serverMock)
+	service := new(internalmock.CampaignServerMock)
 
 	service.On("Create", mock.MatchedBy(func(request contract.NewCampaignDto) bool {
 		return request.Name == body.Name &&
@@ -68,7 +56,7 @@ func Test_CampaignsPost_should_inform_error_when_exist(t *testing.T) {
 		Emails:  []string{"email@gmail.com"},
 	}
 
-	service := new(serverMock)
+	service := new(internalmock.CampaignServerMock)
 
 	service.On("Create", mock.Anything).Return("", fmt.Errorf("error"))
 
