@@ -10,5 +10,12 @@ POST http://localhost:8080/api/v1/campaigns
 
 ###
 
-GET http://localhost:8080/api/v1/campaigns
+GET http://localhost:8080/api/v1/campaigns/cl3vdkvu0bqrt45m9r10
 
+###
+
+PATCH  http://localhost:8080/api/v1/campaigns/cl3sl5vu0bqo7tpeqk8g
+
+###
+
+DELETE   http://localhost:8080/api/v1/campaigns/cl3vdkvu0bqrt45m9r10
