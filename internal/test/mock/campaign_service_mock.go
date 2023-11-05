@@ -14,6 +14,11 @@ func (m *CampaignServerMock) Create(newCampaign contract.NewCampaignDto) (string
 	return args.String(0), args.Error(1)
 }
 
+func (m *CampaignServerMock) Update(newCampaign contract.NewCampaignDto) (string, error) {
+	args := m.Called(newCampaign)
+	return args.String(0), args.Error(1)
+}
+
 func (m *CampaignServerMock) GetBy(id string) (*contract.CampaignResponse, error) {
 	args := m.Called(id)
 	if args.Error(1) != nil {
@@ -25,4 +30,12 @@ func (m *CampaignServerMock) GetBy(id string) (*contract.CampaignResponse, error
 func (m *CampaignServerMock) Cancel(id string) error {
 	args := m.Called(id)
 	return args.Error(0)
+}
+
+func (m *CampaignServerMock) Delete(id string) error {
+	args := m.Called(id)
+	if args.Error(0) != nil {
+		return args.Error(0)
+	}
+	return nil
 }

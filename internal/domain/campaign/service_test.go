@@ -14,7 +14,12 @@ type MockRepository struct {
 	mock.Mock
 }
 
-func (m *MockRepository) Save(campaign *Campaign) error {
+func (m *MockRepository) Create(campaign *Campaign) error {
+	args := m.Called(campaign)
+	return args.Error(0)
+}
+
+func (m *MockRepository) Update(campaign *Campaign) error {
 	args := m.Called(campaign)
 	return args.Error(0)
 }
@@ -30,6 +35,14 @@ func (m *MockRepository) GetById(id string) (*Campaign, error) {
 		return nil, args.Error(1)
 	}
 	return args.Get(0).(*Campaign), nil
+}
+
+func (m *MockRepository) Delete(campaign *Campaign) error {
+	args := m.Called(campaign)
+	if args.Error(0) != nil {
+		return args.Error(0)
+	}
+	return nil
 }
 
 var (
