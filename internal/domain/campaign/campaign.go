@@ -15,13 +15,13 @@ const (
 )
 
 type Contact struct {
-	ID         string `validate:"required" gorm:"size:50"`
-	Email      string `validate:"email"`
-	CampaignID string `validate:"required" gorm:"size:50"`
+	ID         string `gorm:"size:50"`
+	Email      string `validate:"email" gorm:"size:100"`
+	CampaignID string `gorm:"size:50"`
 }
 
 type Campaign struct {
-	ID        string    `validate:"required" gorm:"size:50"`
+	ID        string    `gorm:"size:50"`
 	Name      string    `validate:"min=5,max=50" gorm:"size:100"`
 	CreatedOn time.Time `validate:"required"`
 	Content   string    `validate:"required" gorm:"size:1024"`
