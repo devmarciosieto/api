@@ -9,9 +9,10 @@ import (
 )
 
 const (
-	Pending = "Pending"
-	Started = "Started"
-	Done    = "Done"
+	Pending  = "Pending"
+	Canceled = "Canceled"
+	Started  = "Started"
+	Done     = "Done"
 )
 
 type Contact struct {
@@ -27,6 +28,10 @@ type Campaign struct {
 	Content   string    `validate:"required" gorm:"size:1024"`
 	Contacts  []Contact `validate:"min=1,dive"`
 	Status    string    `gorm:"size:20"`
+}
+
+func (c *Campaign) Cancel() {
+	c.Status = Canceled
 }
 
 func NewCampaign(name string, content string, emails []string) (*Campaign, error) {

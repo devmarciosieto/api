@@ -31,6 +31,7 @@ func main() {
 
 	r.Post("/api/v1/campaigns", endpoints.HandlerError(handler.CampaignPost))
 	r.Get("/api/v1/campaigns/{id}", endpoints.HandlerError(handler.CampaignGetId))
+	r.Patch("/api/v1/campaigns/{id}", endpoints.HandlerError(handler.CampaignCancelPatch))
 
 	http.ListenAndServe(":8080", r)
 }

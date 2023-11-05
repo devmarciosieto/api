@@ -16,5 +16,13 @@ func (m *CampaignServerMock) Create(newCampaign contract.NewCampaignDto) (string
 
 func (m *CampaignServerMock) GetBy(id string) (*contract.CampaignResponse, error) {
 	args := m.Called(id)
+	if args.Error(1) != nil {
+		return nil, args.Error(1)
+	}
 	return args.Get(0).(*contract.CampaignResponse), args.Error(1)
+}
+
+func (m *CampaignServerMock) Cancel(id string) error {
+	args := m.Called(id)
+	return args.Error(0)
 }
