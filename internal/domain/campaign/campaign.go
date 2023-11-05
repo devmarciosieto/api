@@ -15,18 +15,18 @@ const (
 )
 
 type Contact struct {
-	ID         string `validate:"required"`
+	ID         string `validate:"required" gorm:"size:50"`
 	Email      string `validate:"email"`
-	CampaignID string `validate:"required"`
+	CampaignID string `validate:"required" gorm:"size:50"`
 }
 
 type Campaign struct {
-	ID        string    `validate:"required"`
-	Name      string    `validate:"min=5,max=50"`
+	ID        string    `validate:"required" gorm:"size:50"`
+	Name      string    `validate:"min=5,max=50" gorm:"size:100"`
 	CreatedOn time.Time `validate:"required"`
-	Content   string    `validate:"required"`
+	Content   string    `validate:"required" gorm:"size:1024"`
 	Contacts  []Contact `validate:"min=1,dive"`
-	Status    string
+	Status    string    `gorm:"size:20"`
 }
 
 func NewCampaign(name string, content string, emails []string) (*Campaign, error) {
