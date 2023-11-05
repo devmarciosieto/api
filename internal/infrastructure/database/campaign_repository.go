@@ -1,6 +1,9 @@
 package database
 
-import "github.com/devmarciosieto/api/internal/domain/campaign"
+import (
+	"github.com/devmarciosieto/api/internal/contract"
+	"github.com/devmarciosieto/api/internal/domain/campaign"
+)
 
 type CampaignRepository struct {
 	campaigns []campaign.Campaign
@@ -15,6 +18,6 @@ func (c *CampaignRepository) Get() ([]campaign.Campaign, error) {
 	return c.campaigns, nil
 }
 
-func (c *CampaignRepository) GetBy(id string) (*campaign.Campaign, error) {
+func (c *CampaignRepository) GetBy(id string) (*contract.CampaignResponse, error) {
 	return nil, nil
 }

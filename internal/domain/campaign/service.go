@@ -32,7 +32,7 @@ func (s *ServiceImp) Create(newCampaign contract.NewCampaignDto) (string, error)
 
 func (s *ServiceImp) GetBy(id string) (*contract.CampaignResponse, error) {
 
-	campaign, err := s.Repository.GetBy(id)
+	campaign, err := s.Repository.GetById(id)
 
 	if err != nil {
 		return nil, internalerros.ErrInternal

@@ -24,9 +24,9 @@ func (m *MockRepository) Get() ([]Campaign, error) {
 	return nil, nil
 }
 
-func (m *MockRepository) GetBy(id string) (*Campaign, error) {
-	//	args := m.Called(campaign)
-	return nil, nil
+func (m *MockRepository) GetById(id string) (*Campaign, error) {
+	args := m.Called(id)
+	return args.Get(0).(*Campaign), args.Error(1)
 }
 
 var (
@@ -100,4 +100,20 @@ func Test_Create_ValidateRepositorySave(t *testing.T) {
 	assert.NotNil(err)
 	assert.Equal("internal server error", err.Error())
 
+}
+
+func Test_GetById_ReturnCampaign(t *testing.T) {
+
+	assert := assert.New(t)
+	campaign, _ := NewCampaign(newCampaign.Name, newCampaign.Content, newCampaign.Emails)
+	repositoryMock = new(MockRepository)
+	repositoryMock.On("GetById", mock.Anything).Return(campaign, nil)
+	service = ServiceImp{Repository: repositoryMock}
+
+	campaignReturned, _ := service.GetBy(campaign.ID)
+
+	assert.Equal(campaign.ID, campaignReturned.ID)
+	assert.Equal(campaign.Name, campaignReturned.Name)
+	assert.Equal(campaign.Content, campaignReturned.Content)
+	assert.Equal(campaign.Status, campaignReturned.Status)
 }
