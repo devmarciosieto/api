@@ -59,7 +59,7 @@ func Test_Create_Save_Campaign(t *testing.T) {
 
 	assert := assert.New(t)
 
-	repositoryMock.On("Save", mock.MatchedBy(func(campaign *Campaign) bool {
+	repositoryMock.On("Create", mock.MatchedBy(func(campaign *Campaign) bool {
 
 		if campaign.ID == "" ||
 			campaign.Name == "" ||
@@ -109,7 +109,7 @@ func Test_Create_ValidateRepositorySave(t *testing.T) {
 
 	assert := assert.New(t)
 
-	repositoryMock.On("Save", mock.Anything).Return(errors.New("internal server error"))
+	repositoryMock.On("Create", mock.Anything).Return(errors.New("internal server error"))
 
 	_, err := service.Create(newCampaign)
 
