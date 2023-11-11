@@ -4,6 +4,7 @@ import (
 	"context"
 	oidc "github.com/coreos/go-oidc/v3/oidc"
 	jwtgo "github.com/dgrijalva/jwt-go"
+	"os"
 
 	"github.com/go-chi/render"
 	"net/http"
@@ -23,7 +24,7 @@ func Auth(next http.Handler) http.Handler {
 
 		tokenString = strings.Replace(tokenString, "Bearer ", "", 1)
 
-		provider, err := oidc.NewProvider(r.Context(), "http://localhost:8080/realms/provider")
+		provider, err := oidc.NewProvider(r.Context(), os.Getenv("KEYCLOAK"))
 
 		if err != nil {
 			render.Status(r, http.StatusInternalServerError)

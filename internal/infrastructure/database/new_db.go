@@ -4,10 +4,11 @@ import (
 	"github.com/devmarciosieto/api/internal/domain/campaign"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"os"
 )
 
 func NewDB() *gorm.DB {
-	dsn := "host=localhost user=postgres password=root dbname=go_api port=5432"
+	dsn := os.Getenv("DATABASE")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
