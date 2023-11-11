@@ -3,7 +3,7 @@ package endpoints
 import (
 	"errors"
 	"github.com/devmarciosieto/api/internal/contract"
-	internalmock "github.com/devmarciosieto/api/internal/test/mock"
+	internalmock "github.com/devmarciosieto/api/internal/test/internal-mock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"net/http"

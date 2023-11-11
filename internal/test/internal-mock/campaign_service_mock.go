@@ -1,4 +1,4 @@
-package mock
+package internal_mock
 
 import (
 	"github.com/devmarciosieto/api/internal/contract"
