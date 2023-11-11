@@ -19,12 +19,7 @@ GET {{url}}/api/v1/ping
 
 ###
 
-GET {{url}}/api/v1/campaigns
-Authorization: Bearer {{access_token}}
-
-###
-
-GET {{url}}/api/v1/campaigns/cl7c8l7u0bqirj6oth40
+GET {{url}}/api/v1/campaigns/cl7s5svu0bqos3t54pd0
 Authorization: Bearer {{access_token}}
 
 ###
