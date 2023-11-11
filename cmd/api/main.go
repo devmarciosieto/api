@@ -13,11 +13,11 @@ import (
 
 func main() {
 	r := chi.NewRouter()
-
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
+	r.Use(endpoints.Auth)
 
 	db := database.NewDB()
 
@@ -34,5 +34,5 @@ func main() {
 	r.Patch("/api/v1/campaigns/{id}", endpoints.HandlerError(handler.CampaignCancelPatch))
 	r.Delete("/api/v1/campaigns/{id}", endpoints.HandlerError(handler.CampaignDelete))
 
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe(":8081", r)
 }
