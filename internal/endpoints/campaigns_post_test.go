@@ -2,6 +2,7 @@ package endpoints
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -15,8 +16,19 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
+func setup(body contract.NewCampaignDto, createdByExpected string) (*httptest.ResponseRecorder, *http.Request) {
+	var buf bytes.Buffer
+	json.NewEncoder(&buf).Encode(body)
+	req, _ := http.NewRequest("POST", "/campaigns", &buf)
+	ctx := context.WithValue(req.Context(), "email", createdByExpected)
+	rr := httptest.NewRecorder()
+	req = req.WithContext(ctx)
+	return rr, req
+}
+
 func Test_CampaignsPost_should_save_new_campaign(t *testing.T) {
 	assert := assert.New(t)
+	createdByExpected := "email@gmail.com"
 
 	body := contract.NewCampaignDto{
 		Name:    "Campaign name",
@@ -29,17 +41,13 @@ func Test_CampaignsPost_should_save_new_campaign(t *testing.T) {
 	service.On("Create", mock.MatchedBy(func(request contract.NewCampaignDto) bool {
 		return request.Name == body.Name &&
 			request.Content == body.Content &&
-			request.Emails[0] == body.Emails[0]
+			request.Emails[0] == body.Emails[0] &&
+			request.CreatedBy == createdByExpected
 
 	})).Return("id", nil)
 
 	handler := Handler{CampaignService: service}
-
-	var buf bytes.Buffer
-	json.NewEncoder(&buf).Encode(body)
-	req, _ := http.NewRequest("POST", "/campaigns", &buf)
-	rr := httptest.NewRecorder()
-
+	rr, req := setup(body, createdByExpected)
 	_, status, err := handler.CampaignPost(rr, req)
 
 	assert.Equal(http.StatusCreated, status)
@@ -49,7 +57,7 @@ func Test_CampaignsPost_should_save_new_campaign(t *testing.T) {
 
 func Test_CampaignsPost_should_inform_error_when_exist(t *testing.T) {
 	assert := assert.New(t)
-
+	createdByExpected := "email@gmail.com"
 	body := contract.NewCampaignDto{
 		Name:    "Campaign name",
 		Content: "Content da campanha",
@@ -62,10 +70,7 @@ func Test_CampaignsPost_should_inform_error_when_exist(t *testing.T) {
 
 	handler := Handler{CampaignService: service}
 
-	var buf bytes.Buffer
-	json.NewEncoder(&buf).Encode(body)
-	req, _ := http.NewRequest("POST", "/campaigns", &buf)
-	rr := httptest.NewRecorder()
+	rr, req := setup(body, createdByExpected)
 
 	_, _, err := handler.CampaignPost(rr, req)
 
