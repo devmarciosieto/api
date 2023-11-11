@@ -29,7 +29,7 @@ type Campaign struct {
 	Content   string    `validate:"required" gorm:"size:1024"`
 	Contacts  []Contact `validate:"min=1,dive"`
 	Status    string    `gorm:"size:20"`
-	CreatedBy string    `gorm:"size:100"`
+	CreatedBy string    `validate:"email" gorm:"size:100"`
 }
 
 func (c *Campaign) Cancel() {

@@ -95,3 +95,12 @@ func Test_NewCampaign_MustStatusStartWithPending(t *testing.T) {
 
 	assert.Equal(Pending, campaign.Status)
 }
+
+func Test_NewCampaign_MustValidateCreatedBy(t *testing.T) {
+
+	assert := assert.New(t)
+
+	_, err := NewCampaign(name, content, contacts, "")
+
+	assert.Equal("createdby is not valid", err.Error())
+}
