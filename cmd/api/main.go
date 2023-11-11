@@ -17,7 +17,6 @@ func main() {
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
-	r.Use(endpoints.Auth)
 
 	db := database.NewDB()
 
@@ -28,11 +27,17 @@ func main() {
 	handler := endpoints.Handler{
 		CampaignService: &campaignService,
 	}
+	r.Get("/api/v1/ping", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("pong"))
+	})
 
-	r.Post("/api/v1/campaigns", endpoints.HandlerError(handler.CampaignPost))
-	r.Get("/api/v1/campaigns/{id}", endpoints.HandlerError(handler.CampaignGetId))
-	r.Patch("/api/v1/campaigns/{id}", endpoints.HandlerError(handler.CampaignCancelPatch))
-	r.Delete("/api/v1/campaigns/{id}", endpoints.HandlerError(handler.CampaignDelete))
+	r.Route("/api/v1/campaigns", func(r chi.Router) {
+		r.Use(endpoints.Auth)
+		r.Post("/", endpoints.HandlerError(handler.CampaignPost))
+		r.Get("/{id}", endpoints.HandlerError(handler.CampaignGetId))
+		r.Patch("/{id}", endpoints.HandlerError(handler.CampaignCancelPatch))
+		r.Delete("/{id}", endpoints.HandlerError(handler.CampaignDelete))
+	})
 
 	http.ListenAndServe(":8081", r)
 }
