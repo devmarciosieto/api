@@ -1,5 +1,9 @@
-POST http://localhost:8081/api/v1/campaigns
-Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJYSTNkQk9FOXY5NnhmLTYxU1pLeDl4TURWdVN2ZUlDVW5lek8wdkRxRXVnIn0.eyJleHAiOjE2OTk3MjEyOTEsImlhdCI6MTY5OTcyMDk5MSwianRpIjoiMDA3YTU5ZWMtMzQ0YS00ZmJlLWIxZTktZTA3NDhjYjBhNDZiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9wcm92aWRlciIsImF1ZCI6ImVtYWlsSW4iLCJzdWIiOiJkNWM4ZWY4ZS1iMGRmLTQ5NWQtYmMwOC05N2I4M2U1YjA3MjIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJlbWFpbEluIiwic2Vzc2lvbl9zdGF0ZSI6IjA5MTljM2U0LTUyNjItNDgzMS1hYTE3LWRmOTBlYTAwODIwOCIsInNjb3BlIjoicHJvZmlsZSIsInNpZCI6IjA5MTljM2U0LTUyNjItNDgzMS1hYTE3LWRmOTBlYTAwODIwOCIsImdlbmRlciI6Im1hbiIsIm5hbWUiOiJNw6FyY2lvIFJvZ8OpcmlvIFNpZXRvIiwicHJlZmVycmVkX3VzZXJuYW1lIjoibW1tc2lldG9AaG90bWFpbC5jb20iLCJnaXZlbl9uYW1lIjoiTcOhcmNpbyIsImpvYiI6ImRldmVsb3BlciIsImZhbWlseV9uYW1lIjoiUm9nw6lyaW8gU2lldG8ifQ.dsPVtqt9Y89Ar5tf78S61_1jJ3winEX6DPNHZ5gU9rhsFb9ZcdBJij3wOPzz-JkqRsr6qH9W3g2779KtGRN6NKn1LGrTy8x4NMaNAgdLMCiCUAuNG6yEFqoavRr05m_9jqt4KWZE14bKqVVnH0WGBKY6XeTdR93ZCo4M6SfpgKKFPShWatRTNaVgwl6DEryvoa-lZ5zskjI21zPSb9uCI6VdtWPY-mGl5S205o2WoH1wkMj8WKDqQdS0kqMx5UY18-46JvmWQQhiJqGrFoiyCpFk8ZcQ3zY9-F5lskmw29StahqEv3YX_h7gEV_emUJg1MQIXq0edXTC3CM1NmKOHQ
+@url = http://localhost:8081
+@url_keycloak = http://localhost:8080
+###
+
+POST {{url}}/api/v1/campaigns
+Authorization: Bearer {{access_token}}
 
 {
     "name": "Campaign 1",
@@ -11,44 +15,38 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJYSTNkQk
 
 ###
 
-GET http://localhost:8081/api/v1/campaigns
+GET {{url}}/api/v1/ping
 
 ###
 
-GET http://localhost:8081/api/v1/campaigns/cl7c8l7u0bqirj6oth40
+GET {{url}}/api/v1/campaigns
+Authorization: Bearer {{access_token}}
 
 ###
 
-PATCH  http://localhost:8081/api/v1/campaigns/cl3sl5vu0bqo7tpeqk8g
+GET {{url}}/api/v1/campaigns/cl7c8l7u0bqirj6oth40
+Authorization: Bearer {{access_token}}
 
 ###
 
-DELETE   http://localhost:8081/api/v1/campaigns/cl3vdkvu0bqrt45m9r10
+PATCH  {{url}}/api/v1/campaigns/cl3sl5vu0bqo7tpeqk8g
+Authorization: Bearer {{access_token}}
 
 ###
 
-POST http://localhost:8080/realms/provider/protocol/openid-connect/token HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-
-client_id=emailIn
-&client_secret=iIs2DZmTELPxgBRsLoEI4nFmEzxraKji
-&grant_type=client_credentials
+DELETE   {{url}}/api/v1/campaigns/cl3vdkvu0bqrt45m9r10
+Authorization: Bearer {{access_token}}
 
 ###
-
-POST http://localhost:8080/realms/provider/protocol/openid-connect/token HTTP/1.1
+# @name token
+POST {{url_keycloak}}/realms/provider/protocol/openid-connect/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
 client_id=emailIn
 &username=mmmsieto@hotmail.com
 &password=123456
 &grant_type=password
+
 ###
 
-POST http://localhost:8080/realms/provider/protocol/openid-connect/token HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-
-client_id=emailIn_usrs
-&username=mmmsieto@hotmail.com
-&password=123456
-&grant_type=password
+@access_token = {{token.response.body.access_token}}
