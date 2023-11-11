@@ -9,6 +9,8 @@ import (
 func (h *Handler) CampaignPost(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
 	var request contract.NewCampaignDto
 	err := render.DecodeJSON(r.Body, &request)
+	email := r.Context().Value("email").(string)
+	request.CreatedBy = email
 	id, err := h.CampaignService.Create(request)
 	return map[string]string{"id": id, "message": "campaign created"}, http.StatusCreated, err
 }
