@@ -14,6 +14,7 @@ const (
 	Delete   = "Delete"
 	Started  = "Started"
 	Done     = "Done"
+	Fail     = "Fail"
 )
 
 type Contact struct {
@@ -32,8 +33,18 @@ type Campaign struct {
 	CreatedBy string    `validate:"email" gorm:"size:100"`
 }
 
+// TODO: make unit test
+func (c *Campaign) Start() {
+	c.Status = Started
+}
+
 func (c *Campaign) Done() {
 	c.Status = Done
+}
+
+// TODO: make unit test
+func (c *Campaign) Fail() {
+	c.Status = Fail
 }
 
 func (c *Campaign) Cancel() {
