@@ -121,16 +121,7 @@ func (s *ServiceImp) StartCampaign(id string) error {
 		return errors.New("campaign status invalid")
 	}
 
-	go func() {
-		error := s.SendEmail(campaignSaved)
-		if error != nil {
-			campaignSaved.Fail()
-		} else {
-			campaignSaved.Done()
-		}
-
-		s.Repository.Update(campaignSaved)
-	}()
+	go s.SendEmailAndUpdateStatus(campaignSaved)
 
 	campaignSaved.Start()
 	err = s.Repository.Update(campaignSaved)

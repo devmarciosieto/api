@@ -5,6 +5,7 @@ import (
 	"github.com/devmarciosieto/api/internal/infrastructure/database"
 	"github.com/devmarciosieto/api/internal/infrastructure/email"
 	"github.com/joho/godotenv"
+	"time"
 )
 
 func main() {
@@ -36,7 +37,7 @@ func main() {
 		for _, campaign := range campaigns {
 			campaignService.SendEmailAndUpdateStatus(&campaign)
 		}
-
+		time.Sleep(30 * time.Minute)
 	}
 
 }
