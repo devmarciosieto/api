@@ -98,6 +98,17 @@ func (s *ServiceImp) Delete(id string) error {
 	return nil
 }
 
+func (s *ServiceImp) SendEmailAndUpdateStatus(campaignSaved *Campaign) {
+	error := s.SendEmail(campaignSaved)
+	if error != nil {
+		campaignSaved.Fail()
+	} else {
+		campaignSaved.Done()
+	}
+
+	s.Repository.Update(campaignSaved)
+}
+
 func (s *ServiceImp) StartCampaign(id string) error {
 
 	campaignSaved, err := s.Repository.GetById(id)
