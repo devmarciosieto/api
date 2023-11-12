@@ -1,5 +1,7 @@
 @url = http://localhost:8081
 @url_keycloak = http://localhost:8080
+
+@campaign_id = "cl8fagfu0bqn3eubng5g"
 ###
 
 POST {{url}}/api/v1/campaigns
@@ -9,7 +11,7 @@ Authorization: Bearer {{access_token}}
     "name": "Campaign 1",
     "content": "Content 1",
     "emails": [
-        "tests@gmail.com"
+        "mmmsieto@hotmail.com"
     ]
 }
 
@@ -19,7 +21,7 @@ GET {{url}}/api/v1/ping
 
 ###
 
-GET {{url}}/api/v1/campaigns/{{campaign_id}}
+GET {{url}}/api/v1/campaigns/cl8fagfu0bqn3eubng5g
 Authorization: Bearer {{access_token}}
 
 ###
@@ -29,7 +31,7 @@ Authorization: Bearer {{access_token}}
 
 ###
 
-PATCH   {{url}}/api/v1/campaigns/start/{{campaign_id}}
+PATCH   {{url}}/api/v1/campaigns/start/cl8fagfu0bqn3eubng5g
 Authorization: Bearer {{access_token}}
 
 ###
@@ -50,5 +52,4 @@ client_id=emailIn
 ###
 
 @access_token = {{token.response.body.access_token}}
-@campaign_id = "5f9b0b3a9c6b4a0001b9b0b3"
-```
+
