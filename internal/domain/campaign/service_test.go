@@ -20,12 +20,17 @@ var (
 		Emails:    []string{"email1@gmail.com", "email2@gmail.com"},
 		CreatedBy: "email@gmail.com",
 	}
-	repositoryMock = new(internalmock.CampaingMockRepository)
-	service        = campaign.ServiceImp{Repository: repositoryMock}
+	repositoryMock *internalmock.CampaingMockRepository
+	service        = campaign.ServiceImp{}
 )
 
-func Test_Create_Save_Campaign(t *testing.T) {
+func setUp() {
+	repositoryMock = new(internalmock.CampaingMockRepository)
+	service.Repository = repositoryMock
+}
 
+func Test_Create_Save_Campaign(t *testing.T) {
+	setUp()
 	assert := assert.New(t)
 
 	repositoryMock.On("Create", mock.MatchedBy(func(campaign *campaign.Campaign) bool {
@@ -207,11 +212,15 @@ func Test_StartCampaign_ReturnStatusInvalid_when_campaign_has_status_not_equals_
 }
 
 func Test_StartCampaign_should_send_email(t *testing.T) {
-
 	assert := assert.New(t)
 	campaignSaved := &campaign.Campaign{ID: "1", Status: campaign.Pending}
 	repositoryMock = new(internalmock.CampaingMockRepository)
 	repositoryMock.On("GetById", mock.Anything).Return(campaignSaved, nil)
+
+	repositoryMock.On("Update", mock.MatchedBy(func(campaignToUpdate *campaign.Campaign) bool {
+		return campaignSaved.ID == campaignToUpdate.ID && campaignToUpdate.Status == campaign.Done
+	})).Return(nil)
+
 	service.Repository = repositoryMock
 	emailWasSent := false
 	sendEmail := func(campaign *campaign.Campaign) error {
