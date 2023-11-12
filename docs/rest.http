@@ -1,9 +1,9 @@
 @url = http://localhost:8081
 @url_keycloak = http://localhost:8080
 
-@campaign_id = "cl8fagfu0bqn3eubng5g"
-###
 
+###
+# @name campaign_create
 POST {{url}}/api/v1/campaigns
 Authorization: Bearer {{access_token}}
 
@@ -11,9 +11,12 @@ Authorization: Bearer {{access_token}}
     "name": "Campaign 1",
     "content": "Content 1",
     "emails": [
-        "mmmsieto@hotmail.com"
+        "mmmsieto@hotmail.com", "mmmsieto@gmail.com"
     ]
 }
+
+###
+@campaign_id = {{campaign_create.response.body.id}}
 
 ###
 
