@@ -25,34 +25,38 @@ type Contact struct {
 
 type Campaign struct {
 	ID        string    `gorm:"size:50"`
-	Name      string    `validate:"min=5,max=50" gorm:"size:100"`
-	CreatedOn time.Time `validate:"required"`
-	Content   string    `validate:"required" gorm:"size:1024"`
+	Name      string    `validate:"min=5,max=50" gorm:"size:100;not null"`
+	CreatedOn time.Time `validate:"required" gorm:"not null"`
+	UpdatedOn time.Time
+	Content   string    `validate:"required" gorm:"size:1024;not null"`
 	Contacts  []Contact `validate:"min=1,dive"`
-	Status    string    `gorm:"size:20"`
-	CreatedBy string    `validate:"email" gorm:"size:100"`
+	Status    string    `gorm:"size:20;not null"`
+	CreatedBy string    `validate:"email" gorm:"size:100;not null"`
 }
 
-// TODO: make unit test
 func (c *Campaign) Start() {
 	c.Status = Started
+	c.UpdatedOn = time.Now()
 }
 
 func (c *Campaign) Done() {
 	c.Status = Done
+	c.UpdatedOn = time.Now()
 }
 
-// TODO: make unit test
 func (c *Campaign) Fail() {
 	c.Status = Fail
+	c.UpdatedOn = time.Now()
 }
 
 func (c *Campaign) Cancel() {
 	c.Status = Canceled
+	c.UpdatedOn = time.Now()
 }
 
 func (c *Campaign) Delete() {
 	c.Status = Delete
+	c.UpdatedOn = time.Now()
 }
 
 func NewCampaign(name string, content string, emails []string, createdBy string) (*Campaign, error) {
