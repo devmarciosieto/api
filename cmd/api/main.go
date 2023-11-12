@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/devmarciosieto/api/internal/infrastructure/email"
 	"github.com/joho/godotenv"
 	"net/http"
 
@@ -29,6 +30,7 @@ func main() {
 
 	campaignService := campaign.ServiceImp{
 		Repository: &database.CampaignRepository{Db: db},
+		SendEmail:  email.SendEmail,
 	}
 
 	handler := endpoints.Handler{
