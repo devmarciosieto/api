@@ -39,3 +39,11 @@ func (m *CampaignServerMock) Delete(id string) error {
 	}
 	return nil
 }
+
+func (m *CampaignServerMock) StartCampaign(id string) error {
+	args := m.Called(id)
+	if args.Error(0) != nil {
+		return args.Error(0)
+	}
+	return nil
+}

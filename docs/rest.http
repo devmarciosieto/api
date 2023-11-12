@@ -19,17 +19,22 @@ GET {{url}}/api/v1/ping
 
 ###
 
-GET {{url}}/api/v1/campaigns/cl7s5svu0bqos3t54pd0
+GET {{url}}/api/v1/campaigns/{{campaign_id}}
 Authorization: Bearer {{access_token}}
 
 ###
 
-PATCH  {{url}}/api/v1/campaigns/cl3sl5vu0bqo7tpeqk8g
+PATCH  {{url}}/api/v1/campaigns/{{campaign_id}}
 Authorization: Bearer {{access_token}}
 
 ###
 
-DELETE   {{url}}/api/v1/campaigns/cl3vdkvu0bqrt45m9r10
+PATCH   {{url}}/api/v1/campaigns/start/{{campaign_id}}
+Authorization: Bearer {{access_token}}
+
+###
+
+DELETE   {{url}}/api/v1/campaigns/{{campaign_id}}
 Authorization: Bearer {{access_token}}
 
 ###
@@ -45,3 +50,5 @@ client_id=emailIn
 ###
 
 @access_token = {{token.response.body.access_token}}
+@campaign_id = "5f9b0b3a9c6b4a0001b9b0b3"
+```
