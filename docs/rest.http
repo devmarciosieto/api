@@ -24,7 +24,7 @@ GET {{url}}/api/v1/ping
 
 ###
 
-GET {{url}}/api/v1/campaigns/cl8fagfu0bqn3eubng5g
+GET {{url}}/api/v1/campaigns/{{campaign_id}}
 Authorization: Bearer {{access_token}}
 
 ###
@@ -34,7 +34,7 @@ Authorization: Bearer {{access_token}}
 
 ###
 
-PATCH   {{url}}/api/v1/campaigns/start/cl8fagfu0bqn3eubng5g
+PATCH   {{url}}/api/v1/campaigns/start/{{campaign_id}}
 Authorization: Bearer {{access_token}}
 
 ###
