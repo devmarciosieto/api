@@ -9,6 +9,10 @@ type CampaingMockRepository struct {
 	mock.Mock
 }
 
+func (m *CampaingMockRepository) GetCampaignsToBeSent() ([]campaign.Campaign, error) {
+	panic("implement me")
+}
+
 func (m *CampaingMockRepository) Create(campaign *campaign.Campaign) error {
 	args := m.Called(campaign)
 	return args.Error(0)
