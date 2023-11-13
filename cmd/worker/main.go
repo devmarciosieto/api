@@ -37,7 +37,7 @@ func main() {
 		for _, campaign := range campaigns {
 			campaignService.SendEmailAndUpdateStatus(&campaign)
 		}
-		time.Sleep(1 * time.Minute)
+		time.Sleep(10 * time.Second)
 	}
 
 }
